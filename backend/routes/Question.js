@@ -38,6 +38,28 @@ router.get("/fetchall",function(req,res){
             res.status(500).json(err);
         }
     })
+});
+
+router.get("/delete/:id",function(req,res){
+    let id = req.params.id;
+
+    Question.findByIdAndRemove({
+        _id:id
+    },function(err,user){
+        if(err) res.status(500).json(err);
+
+        else res.status(200).json("User is deleted Successfully");
+    });
+});
+
+router.get("/updateUser/:id",function(req,res){
+    let id = req.params.id;
+
+    Question.findById(id,function(err,question){
+        if(!question) res.status(500).json("Question is not found");
+
+        res.status(200).json(question);
+    })
 })
 
 

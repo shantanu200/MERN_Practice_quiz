@@ -3,40 +3,48 @@ import axios from "axios";
 
 
 const Quiz = () => {
-  const queBank = [
-    {que:"Question1",option:[{text:"Option1",id:1},{text:"Option2",id:2},{text:"Option3",id:3},{text:"Option4",id:4}],answer:1},
-    {que:"Question2",option:[{text:"Option1",id:1},{text:"Option2",id:2},{text:"Option3",id:3},{text:"Option4",id:4}],answer:2},
-    {que:"Question3",option:[{text:"Option1",id:1},{text:"Option2",id:2},{text:"Option3",id:3},{text:"Option4",id:4}],answer:3},
-    {que:"Question4",option:[{text:"Option1",id:1},{text:"Option2",id:2},{text:"Option3",id:3},{text:"Option4",id:4}],answer:4},
-    {que:"Question5",option:[{text:"Option1",id:1},{text:"Option2",id:2},{text:"Option3",id:3},{text:"Option4",id:4}],answer:1},
-  ];
-  
-  const [currque,setCurrque] = useState(0);
+   
   const [score,setScore] = useState(0);
   const [isOver,setIsOver] = useState(false);
   const [rQue,setRque] = useState([]);
-  const [noque,setNoque] = useState(0);
-  
-  const fQue = [];
+  const [noque,setNoque] = useState(10); 
+  const [queDis,setQueDis] = useState(1);
+  const [queIndex,setQueIndex] = useState([0]);
+  const [currque,setCurrque] = useState(0);
+  const [binAns,setBinAns] = useState([]);
 
-  function handleNext(uans){
-    let nextQue = Math.floor(Math.random()*rQue.length);
-    
-    if(noque<10){
-      if(currque<rQue.length-1){
-        if(rQue[currque].ans===uans){
-          setScore(score+1);
-        }
-        setCurrque(nextQue);
-      }
-      if(currque===rQue.length-1){
-        if(rQue[currque].ans===uans){
-          setScore(score+1);
-        }
-        setIsOver(true);
-      }
+  let rScore = 0;
+  
+  function insertIndex(ele){
+    setQueIndex([...queIndex,ele]);
+  }
+  
+  function checkAnswer(currque,uans){
+    if(rQue[currque].answer === uans){
+      setBinAns([...binAns,1]);
+      setScore(score+1);
+    }else{
+      setBinAns([...binAns,0]);
+      return;
     }
-    
+  }
+  
+  function handleNext(uans){
+    let nextque = Math.floor(Math.random()*rQue.length);
+    if(queDis<noque){
+      checkAnswer(currque,uans);
+      console.log(`Score is ${score}`);
+      insertIndex(nextque);
+      setCurrque(nextque);
+    }
+    else if(queDis === noque){
+      checkAnswer(currque,uans);
+      setIsOver(true);
+    }
+    console.log(`Currque ${currque}`);
+    console.log(`QueDis ${queDis}`);
+    console.log(`rScore ${rScore}`);
+    setQueDis(queDis+1);
   }
 
   useEffect(() => {
@@ -48,13 +56,17 @@ const Quiz = () => {
 
   return (
     <>
+    {console.log(queIndex)}
+    {console.log(binAns)}
     {!isOver && (
     <div className='quiz-box'>
+    <h1>Score is {score} </h1>
     <div className='que'>
        {
         rQue.slice(currque,currque+1).map((val,key)=>{
           return(
-            <span>
+            <span key={key}>
+            {queDis}
             {val.question}
             </span> 
           )
@@ -63,10 +75,10 @@ const Quiz = () => {
     </div>
       {rQue.slice(currque,currque+1).map((val,key) => {
         return(
-          <div className='options-grp' >
+          <div className='options-grp' key={key}>
            {val.options.map((oval,okey)=>{
             return(
-              <div className='options' key={okey}>
+              <div className='options' style={{margin: "30px",border:"10px"}} key={okey}>
               <span onClick={() => {handleNext(oval.id)}}>{oval.text}</span>
               </div>
             )
@@ -78,11 +90,11 @@ const Quiz = () => {
     )}
     {
       isOver && (
-         <h1>Quiz is Over & Score is {score}</h1>
+         <h1>Quiz is Over & Score is {score} / {noque} </h1>
       )
     }
     </>
   )
 }
 
-export default Quiz
+export default Quiz;

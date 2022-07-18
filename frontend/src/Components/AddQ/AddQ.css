@@ -1,0 +1,46 @@
+.main-body{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+}
+.addQue{
+    width: 40vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.addQue .fields{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.addQue .fields label{
+    margin-right: 20px;
+}
+
+.addQue .fields input{
+    padding: 10px 50px;
+}
+
+.addQue header{
+    font-size: 25px;
+}
+
+.data-table{
+    height: 100vh;
+    width: 60vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.fa-trash{
+    color: red;
+}
+
+.fa-pen{
+    color: green
+}
