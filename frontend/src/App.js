@@ -5,6 +5,10 @@ import AddQ from './Components/AddQ/AddQ';
 import Quiz from './Components/Quiz/Quiz';
 import Main from './Components/GUI/Main';
 import Auth from './Components/Auth/Auth';
+import Solution from './Components/Solution/Solution';
+import Single from './Components/Solution/Single';
+import AddSol from './Components/AddQ/AddSol';
+import Dummy from './Components/Solution/dummy';
 
 function App() {
   const [logUser,setLogUser] = useState();
@@ -20,6 +24,9 @@ function App() {
     <Route path='/add'  element={<AddQ />} />
     <Route path='/gui'  element={<Main user={logUser} />} />
     <Route path='/user' element={<Auth />}  />
+    <Route path='/sol' element={<Solution />} />
+    <Route path='/solution/:id' element={<Single />}  />
+    <Route path='/sol/:id' element={<AddSol />} />
     </Routes>
   );
 }

@@ -12,6 +12,9 @@ const QuestionSchema = new mongoose.Schema({
     answer:{
         type:Number,
         required:true
+    },
+    solution:{
+        type:String
     }
 },{timestamps:true});
 

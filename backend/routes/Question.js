@@ -62,6 +62,47 @@ router.get("/updateUser/:id",function(req,res){
     })
 })
 
+router.get("/question/:id",function(req,res){
+    let id = req.params.id;
+
+    Question.findById(id,(err,question) => {
+        if(question){
+            res.status(200).json(question);
+        }else{
+            res.status(500).json(err);
+        }
+    });
+});
+
+//POST SOLUTION
+router.post("/question/solution/:id",function(req,res){
+    let id = req.params.id;
+
+    Question.findById(id,(err,question) => {
+        if(question){
+            question.solution = req.body.solution;
+
+            question.save().then((que) => {
+                res.status(200).json("Question solution is added");
+            }).catch((err) => {
+                res.status(500).json(err);
+            })
+        }
+    })
+});
+
+//GET SOLUTION
+router.get("/solution/:id",function(req,res){
+    let id = req.params.id;
+
+    Question.findById(id,(err,question) => {
+        if(question){
+            res.status(200).json(question);
+        }else{
+            res.status(500).json(err);
+        }
+    })
+});
 
 
 

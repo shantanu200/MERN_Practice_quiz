@@ -1,0 +1,101 @@
+.sol-container{
+    min-height: 100vh;
+    width: 100vw;
+    background: black;
+}
+
+.sol-box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 5;
+    pointer-events: auto;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) 0 4px 8px 0 rgba(0,0,0,0.19);
+    width: 60vw;
+    background: #fff;
+    display: flex;
+}
+
+.sol-box .left{
+    width: 30vw;
+}
+
+.sol-box .right{
+    width: 30vw;
+}
+
+.option_list .option .correct{
+    background-color: #B7FFBF;
+}
+
+.sol-buttons {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 30px;
+    border-top: 1px solid lightgrey;
+}
+
+.sol-buttons .mark-btn{
+    margin: 0 5px;
+    padding: 0 20px;
+    height: 40px;
+    font-size: 1rem;
+    font-weight: 500;
+    background: #039be5;
+    color: white;
+    cursor: pointer;
+    border:none;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #039be5;
+    transition: all 0.3s ease;
+}
+
+.content{
+    height: 100%;
+    width: 100%;
+}
+
+.content .content-title{
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 1.7rem;
+    font-weight: bold;
+}
+
+.content .content-text{
+    margin-top: 5px;
+    margin-left: 20px;
+    height: 80%;
+    width: 90%;
+    border: 1px solid #ECECEC;
+    border-radius: 5px;
+    background: #ECECEC;
+    padding: 10px 20px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 1rem;
+}
+
+
+@media only screen and (max-width:768px){
+    .sol-box{
+        width: 80vw;
+        flex-direction: column;
+    }
+    
+    .sol-box .left{
+        width: 80vw;
+    }
+
+    .sol-box .right{
+        width: 80vw;
+    }
+
+    .content .content-text{
+        width: 60vw;
+    }
+}

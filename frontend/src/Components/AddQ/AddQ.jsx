@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import "./AddQ.css";
+import AddSol from './AddSol';
+import { useNavigate } from 'react-router-dom';
 
 const AddQ = () => {
+  const navigate = useNavigate();
   let count = 0;
-  const [ques,setQues] = useState([]);
-  const [isDeleted,setIsDeleted] = useState(false);
-  const [updateUser,setUpdateUser] = useState({
+  const [ques, setQues] = useState([]);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [isSolution, setIsSolution] = useState(false);
+  const [id, setId] = useState("");
+  const [updateUser, setUpdateUser] = useState({
     que: "",
     option1: "",
     option2: "",
@@ -28,7 +33,7 @@ const AddQ = () => {
   const handleField = (e) => {
     setQuestion({
       ...question,
-      [e.target.name] : e.target.value
+      [e.target.name]: e.target.value
     })
   }
 
@@ -50,41 +55,46 @@ const AddQ = () => {
 
   const handleDelete = (id) => {
     axios.get(`http://localhost:8080/api/delete/${id}`)
-    .then((res) => {
-      window.location.reload(true);
-    })
+      .then((res) => {
+        window.location.reload(true);
+      })
   }
 
   const handleUpdate = (id) => {
-    try{
+    try {
       axios.get(`http://localhost:8080/api/updateUser/${id}`)
-      .then((res) => {
-        setUpdateUser(res.data);
-      })
-    }catch(err) {console.log(err)}
+        .then((res) => {
+          setUpdateUser(res.data);
+        })
+    } catch (err) { console.log(err) }
   }
 
   useEffect(() => {
-    try{
+    try {
       axios.get("http://localhost:8080/api/fetchall")
-      .then((res) => {
-        setQues(res.data);
-      })
-    }catch(err) {
+        .then((res) => {
+          setQues(res.data);
+        })
+    } catch (err) {
       console.log(err);
     }
-  },[]);
+  }, []);
 
+  function handleSolution(id) {
+    setId(id);
+    setIsSolution(true);
+  }
   return (
     <div className='main-body'>
       {isDeleted && (<div class="alert alert-success" role="alert">
-      Question is Deleted
-</div>)}
-      <div className='addQue'> 
-      <header>
-        <h1>Add Questions</h1>
-        {updateUser._id && (<h1>Question is Selected</h1>)}  
-      </header>
+        Question is Deleted
+      </div>)}
+      {isSolution && (<AddSol id={id} />)}
+      {!isSolution && (<div className='addQue'>
+        <header>
+          <h1>Add Questions</h1>
+          {updateUser._id && (<h1>Question is Selected</h1>)}
+        </header>
         <form onSubmit={handleForm}>
           <div className='fields'>
             <label>Question:</label>
@@ -112,36 +122,35 @@ const AddQ = () => {
           </div>
           <button type="submit" className='btn btn-success'>Submit</button>
         </form>
-      </div>
+      </div>)}
       <div className='data-table'>
         <h1>Questions Data</h1>
         <table class="table">
           <thead class="table-dark">
-           <tr>
-            <th>#</th>
-            <th>Question</th>
-            <th>Options</th>
-            <th>Answer</th>
-            <th>Action</th>
-           </tr>
+            <tr>
+              <th>#</th>
+              <th>Question</th>
+              <th>Options</th>
+              <th>Answer</th>
+              <th>Action</th>
+            </tr>
           </thead>
           <tbody>
-            {ques.map((val,key) => {
-              return(
+            {ques.map((val, key) => {
+              return (
                 <tr key={key}>
                   <td>{++count}</td>
                   <td>{val.question}</td>
                   <td>{
-                  val.options[0].text+ " " + val.options[1].text + " " + val.options[2].text + " " + val.options[3].text 
+                    val.options[0].text + " " + val.options[1].text + " " + val.options[2].text + " " + val.options[3].text
                   }</td>
                   <td>{val.answer}</td>
-                  <td><i class="fa-solid fa-trash" onClick={() => {handleDelete(val._id)}}></i> <i class="fa-solid fa-pen" onClick={() => {handleUpdate(val._id)}}></i></td>
+                  <td><i class="fa-solid fa-trash" onClick={() => { handleDelete(val._id) }}></i> <i class="fa-solid fa-pen" onClick={() => { handleUpdate(val._id) }}></i> <i class="fa-solid fa-book-open" onClick={() => { handleSolution(val._id); }}></i></td>
                 </tr>
               )
             })}
           </tbody>
         </table>
-
       </div>
     </div>
   )

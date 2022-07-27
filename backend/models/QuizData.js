@@ -24,7 +24,10 @@ const QuizDataSchema = new mongoose.Schema({
    queIndex: {
       type: [Number],
       required: true
-   }
+   },
+   markedquestions:{
+      type: [String],
+   },
 }, { timestamps: true })
 
 
